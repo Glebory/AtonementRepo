@@ -1,4 +1,4 @@
-[gd_scene load_steps=30 format=3 uid="uid://ctlttx6j4apog"]
+[gd_scene load_steps=31 format=3 uid="uid://ctlttx6j4apog"]
 
 [ext_resource type="Script" path="res://characters/player.gd" id="1_khqjo"]
 [ext_resource type="Texture2D" uid="uid://c2cj67450l65v" path="res://Art/art resources/character/idle.png" id="4_plh4g"]
@@ -7,6 +7,7 @@
 [ext_resource type="Texture2D" uid="uid://bumv6y84u4sln" path="res://Art/art resources/character/jump start.png" id="8_wh8du"]
 [ext_resource type="Script" path="res://characters/PlayerStateMachine.gd" id="9_brdqx"]
 [ext_resource type="Script" path="res://characters/GroundState.gd" id="10_5x0gd"]
+[ext_resource type="Script" path="res://characters/JumpStartState.gd" id="10_xyapa"]
 [ext_resource type="Script" path="res://characters/AirState.gd" id="11_eso65"]
 [ext_resource type="Script" path="res://characters/LandingState.gd" id="12_d0ixx"]
 [ext_resource type="Script" path="res://characters/StateDebugLabel.gd" id="13_ixeik"]
@@ -374,7 +375,7 @@ states/Landing/position = Vector2(575, 9)
 states/move/node = SubResource("AnimationNodeBlendSpace1D_cuutv")
 states/move/position = Vector2(396, 100)
 transitions = ["Start", "move", SubResource("AnimationNodeStateMachineTransition_u1q5b"), "move", "jump start", SubResource("AnimationNodeStateMachineTransition_jffbr"), "jump start", "Landing", SubResource("AnimationNodeStateMachineTransition_d16t3"), "Landing", "move", SubResource("AnimationNodeStateMachineTransition_eev1p")]
-graph_offset = Vector2(-80.6612, 0)
+graph_offset = Vector2(-204.342, 0)
 
 [node name="Player" type="CharacterBody2D"]
 script = ExtResource("1_khqjo")
@@ -405,9 +406,10 @@ player = NodePath("..")
 current_state = NodePath("Ground")
 animation_tree = NodePath("../AnimationTree")
 
-[node name="Ground" type="Node" parent="PlayerStateMachine" node_paths=PackedStringArray("air_state")]
+[node name="Ground" type="Node" parent="PlayerStateMachine" node_paths=PackedStringArray("air_state", "jump_start_state")]
 script = ExtResource("10_5x0gd")
 air_state = NodePath("../Air")
+jump_start_state = NodePath("../JumpStart")
 jump_animation = "jump start"
 
 [node name="Air" type="Node" parent="PlayerStateMachine" node_paths=PackedStringArray("landing_state")]
@@ -421,6 +423,11 @@ landing_animation = "Landing"
 ground_state = NodePath("../Ground")
 can_move = false
 
+[node name="JumpStart" type="Node" parent="PlayerStateMachine" node_paths=PackedStringArray("air_state")]
+script = ExtResource("10_xyapa")
+air_state = NodePath("../Air")
+jump_an = "jump start"
+
 [node name="StateDebugLabel" type="Label" parent="." node_paths=PackedStringArray("state_machine")]
 offset_left = -30.0
 offset_top = -46.0
@@ -430,3 +437,4 @@ script = ExtResource("13_ixeik")
 state_machine = NodePath("../PlayerStateMachine")
 
 [connection signal="animation_finished" from="AnimationTree" to="PlayerStateMachine/Landing" method="_on_animation_tree_animation_finished"]
+[connection signal="animation_finished" from="AnimationTree" to="PlayerStateMachine/JumpStart" method="_on_animation_tree_animation_finished"]
