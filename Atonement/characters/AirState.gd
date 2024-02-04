@@ -4,7 +4,7 @@ class_name AirState
 
 @export var landing_state : LandingState
 @export var landing_animation : String = "landing"
-@export var jump_finish : bool
+var jump_finish : bool
 
 func process(delta):
 	if(player.is_on_floor()):
@@ -17,7 +17,8 @@ func on_exit():
 		jump_finish = false
 
 func state_input(event: InputEvent):
-	if(!event.is_action_pressed("jump") and not jump_finish and player.velocity.y < 0):
+	if(event.is_action_released("jump") and not jump_finish and player.velocity.y < 0):
 		player.velocity.y = player.velocity.y/2
 		jump_finish = true
+	
 
