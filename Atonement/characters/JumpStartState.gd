@@ -4,13 +4,15 @@ class_name JumpStartState
 
 @export var air_state : State
 @export var jump_velocity : float = -300.0
-@export var jump_an : String
+@export var jump_start : String
+@export var jump_up : String
 var beginning : int
 var jump_finish : bool
 
 func _on_animation_tree_animation_finished(anim_name):
-	if(anim_name == jump_an):
+	if(anim_name == jump_start):
 		player.velocity.y = jump_velocity
+		playback.travel(jump_up)
 		next_state = air_state
 		
 func on_enter():
