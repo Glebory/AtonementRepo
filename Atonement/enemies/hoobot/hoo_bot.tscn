@@ -1,0 +1,114 @@
+[gd_scene load_steps=15 format=3 uid="uid://dmk1ovv1s8bvt"]
+
+[ext_resource type="Script" path="res://enemies/hoobot/hoo_bot.gd" id="1_ehb83"]
+[ext_resource type="Texture2D" uid="uid://csmlglka1mpu4" path="res://enemies/hoobot/sprites/Hoobot_idle.png" id="2_jpjih"]
+[ext_resource type="Script" path="res://enemies/hoobot/states/HoobotStateMachine.gd" id="3_axsmj"]
+[ext_resource type="Texture2D" uid="uid://camnog72pp8pp" path="res://enemies/hoobot/sprites/Hoobot.png" id="3_uh8gu"]
+[ext_resource type="Script" path="res://enemies/hoobot/states/Passive.gd" id="4_6oa3t"]
+[ext_resource type="Script" path="res://enemies/hoobot/states/Aggressive.gd" id="5_fnvsn"]
+[ext_resource type="Script" path="res://player/States/StateDebugLabel.gd" id="6_k5x3q"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_w74bp"]
+atlas = ExtResource("2_jpjih")
+region = Rect2(0, 0, 26, 26)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_1h7pe"]
+atlas = ExtResource("2_jpjih")
+region = Rect2(26, 0, 26, 26)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_lxb8t"]
+atlas = ExtResource("3_uh8gu")
+region = Rect2(78, 0, 26, 26)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_cn8m0"]
+atlas = ExtResource("3_uh8gu")
+region = Rect2(52, 0, 26, 26)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_8h1hx"]
+atlas = ExtResource("3_uh8gu")
+region = Rect2(26, 0, 26, 26)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_03nb4"]
+atlas = ExtResource("3_uh8gu")
+region = Rect2(0, 0, 26, 26)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_3vr1x"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_w74bp")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_1h7pe")
+}],
+"loop": true,
+"name": &"idle",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_lxb8t")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_cn8m0")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_8h1hx")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_03nb4")
+}],
+"loop": true,
+"name": &"move",
+"speed": 10.0
+}]
+
+[node name="HooBot" type="CharacterBody2D"]
+collision_layer = 8
+script = ExtResource("1_ehb83")
+
+[node name="Hitbox" type="CollisionPolygon2D" parent="."]
+position = Vector2(0, -18)
+scale = Vector2(0.994792, 1.03309)
+polygon = PackedVector2Array(-9.04712, 21.2953, -2.01047, 6.77579, 2.01047, 6.77579, 13.0681, 22.2633, 12.0628, 30.0071, -13.0681, 30.0071)
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+sprite_frames = SubResource("SpriteFrames_3vr1x")
+animation = &"move"
+frame_progress = 0.361029
+
+[node name="HoobotStateMachine" type="Node" parent="." node_paths=PackedStringArray("hoobot", "current_state")]
+script = ExtResource("3_axsmj")
+hoobot = NodePath("..")
+current_state = NodePath("Passive")
+
+[node name="Passive" type="Node" parent="HoobotStateMachine" node_paths=PackedStringArray("aggressive_state")]
+script = ExtResource("4_6oa3t")
+aggressive_state = NodePath("../Aggressive")
+
+[node name="Aggressive" type="Node" parent="HoobotStateMachine"]
+script = ExtResource("5_fnvsn")
+
+[node name="StateDebugLabel" type="Label" parent="." node_paths=PackedStringArray("state_machine")]
+offset_left = -30.0
+offset_top = -46.0
+offset_right = 33.0
+offset_bottom = -23.0
+script = ExtResource("6_k5x3q")
+state_machine = NodePath("../HoobotStateMachine")
+
+[node name="Attackbox" type="Area2D" parent="."]
+collision_layer = 0
+collision_mask = 5
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Attackbox"]
+polygon = PackedVector2Array(-13, 13, 12, 13, 13, 5, 2, -11, -2, -11)
+
+[node name="DamagedTimer" type="Timer" parent="."]
+process_callback = 0
+wait_time = 0.1
+one_shot = true
+
+[connection signal="body_entered" from="Attackbox" to="." method="_on_attackbox_body_entered"]
+[connection signal="body_exited" from="Attackbox" to="." method="_on_attackbox_body_exited"]
+[connection signal="timeout" from="DamagedTimer" to="." method="_on_damaged_timer_timeout"]

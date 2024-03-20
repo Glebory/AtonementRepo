@@ -1,0 +1,10 @@
+[gd_scene load_steps=2 format=3 uid="uid://bhjrl0e8xsmh4"]
+
+[ext_resource type="PackedScene" uid="uid://cvryxve4u3nkm" path="res://player/Scenes/health_hud.tscn" id="1_0ecq8"]
+
+[node name="PlayerStats" type="HBoxContainer"]
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="HealthHUD" parent="." instance=ExtResource("1_0ecq8")]
+layout_mode = 2

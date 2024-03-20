@@ -13,7 +13,7 @@ func _ready():
 		if(child is State):
 			states.append(child)
 			child.playback = animation_tree["parameters/playback"]
-			child.player = player
+			child.Character = player
 		else:
 			push_warning("Child " + child.name + " is not a state for Player")
 

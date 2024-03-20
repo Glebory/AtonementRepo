@@ -1,0 +1,15 @@
+[gd_scene load_steps=2 format=3 uid="uid://cvryxve4u3nkm"]
+
+[ext_resource type="Texture2D" uid="uid://dxwnrj06g2axv" path="res://player/hud/HealthHud.png" id="1_jr6lv"]
+
+[node name="HealthHUD" type="Panel"]
+self_modulate = Color(1, 1, 1, 0)
+custom_minimum_size = Vector2(26, 20)
+offset_right = 26.0
+offset_bottom = 20.0
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+scale = Vector2(1.5, 1.634)
+texture = ExtResource("1_jr6lv")
+centered = false
+hframes = 5
