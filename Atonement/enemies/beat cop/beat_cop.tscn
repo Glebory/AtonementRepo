@@ -1,0 +1,83 @@
+[gd_scene load_steps=9 format=3 uid="uid://butbxbiuw01qj"]
+
+[ext_resource type="Texture2D" uid="uid://cb7bsip2rqidd" path="res://enemies/beat cop/sprites/beat cop attack.png" id="1_r8x4u"]
+[ext_resource type="Texture2D" uid="uid://d76wibxok74d" path="res://enemies/beat cop/sprites/beat cop idle.png" id="2_rehdq"]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_cb8h4"]
+radius = 5.0
+height = 44.0
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_4ners"]
+atlas = ExtResource("1_r8x4u")
+region = Rect2(0, 0, 50, 45)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_2epie"]
+atlas = ExtResource("2_rehdq")
+region = Rect2(0, 0, 30, 45)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_xqi71"]
+atlas = ExtResource("2_rehdq")
+region = Rect2(30, 0, 30, 45)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_rgx45"]
+atlas = ExtResource("2_rehdq")
+region = Rect2(60, 0, 30, 45)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_2ns5y"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_4ners")
+}],
+"loop": true,
+"name": &"attack",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_2epie")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_2epie")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_2epie")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_xqi71")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_rgx45")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_rgx45")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_rgx45")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_rgx45")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_xqi71")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_2epie")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_2epie")
+}],
+"loop": true,
+"name": &"idle",
+"speed": 5.0
+}]
+
+[node name="BeatCop" type="CharacterBody2D"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CapsuleShape2D_cb8h4")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+sprite_frames = SubResource("SpriteFrames_2ns5y")
+animation = &"idle"
+frame_progress = 0.547877
