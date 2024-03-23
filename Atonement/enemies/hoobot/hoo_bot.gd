@@ -1,10 +1,11 @@
 extends CharacterBody2D
 
+#temporary code v
 @onready var player = get_node("/root/Node2D/Player")
 @onready var sprite : AnimatedSprite2D = $AnimatedSprite2D
 @onready var dmgtmr : Timer = $DamagedTimer
 
-var speed : float = 75.0
+var speed : float = 50.0
 var gravity = ProjectSettings.get_setting("physics/2d/default_gravity")
 var direction : Vector2 = Vector2.ZERO
 var dmg : int = 10
@@ -25,8 +26,7 @@ func _physics_process(delta):
 		sprite.play("move")
 	if health < 0:
 		queue_free()
-	
-	attack()
+
 	move_and_slide()
 	animation_update()
 
@@ -35,6 +35,9 @@ func animation_update():
 		sprite.flip_h = false
 	elif direction.x > 0:
 		sprite.flip_h = true
+	if is_on_floor():
+		self.rotation = get_floor_normal().angle() +deg_to_rad(90)
+		
 	
 @warning_ignore("shadowed_variable")
 func hit(dmg, knockback):
@@ -44,18 +47,9 @@ func hit(dmg, knockback):
 	sprite.self_modulate = Color(1,0,0)
 	
 
-func attack():
-	if entered:
-		dmging_body.hit(dmg) 
-	
 func _on_attackbox_body_entered(body):
 	if body.has_method("hit"):
-		dmging_body = body
-		entered = true
-		
-func _on_attackbox_body_exited(body):
-	if body == dmging_body: 
-		entered = false
+		body.hit(dmg) 
 
 func _on_damaged_timer_timeout():
 	sprite.self_modulate = Color(1,1,1)

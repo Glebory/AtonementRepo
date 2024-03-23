@@ -17,6 +17,7 @@ signal laser_shot(laser_scene, location)
 var gravity = ProjectSettings.get_setting("physics/2d/default_gravity")
 var walk_direction : Vector2 = Vector2.ZERO
 var look_direction : Vector2 = Vector2.ZERO
+#temporary line v
 var laser_scene  = preload("res://player/bullets/laser/scenes/laser.tscn")
 var standing_hit_box : Shape2D
 var crouching_hit_box : Shape2D
@@ -51,7 +52,7 @@ func _physics_process(delta):
 	else:
 		velocity.x = move_toward(velocity.x, 0, speed)
 	
-	invincibilityFrames(delta)
+	invincibilityFrames()
 	move_and_slide()
 	animation_update()
 	
@@ -114,7 +115,7 @@ func _on_invincibility_timeout():
 	invincibility = false
 	sprite.visible = true
 	
-func invincibilityFrames(delta):
+func invincibilityFrames():
 	if invincibility:
 		var time_left : int = invincibility_timer.time_left * 100
 		if time_left%10 == 0:

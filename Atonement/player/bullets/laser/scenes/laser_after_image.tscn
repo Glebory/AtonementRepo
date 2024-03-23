@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://t6h387mn6vuu"]
+
+[ext_resource type="Script" path="res://player/bullets/laser/scripts/laserAfterImage.gd" id="1_bkrgi"]
+
+[node name="LaserAfterImage" type="Line2D"]
+script = ExtResource("1_bkrgi")

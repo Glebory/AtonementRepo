@@ -6,8 +6,8 @@
 [ext_resource type="PackedScene" uid="uid://cvryxve4u3nkm" path="res://player/Scenes/health_hud.tscn" id="3_vtyiy"]
 [ext_resource type="PackedScene" uid="uid://dmk1ovv1s8bvt" path="res://enemies/hoobot/hoo_bot.tscn" id="4_66ahq"]
 [ext_resource type="Shader" path="res://ui/shaders/vhs.gdshader" id="5_7pts0"]
-[ext_resource type="Texture2D" uid="uid://bv6mhodm7ehed" path="res://world/Backgrounds/Background.png" id="6_ylpn8"]
-[ext_resource type="Texture2D" uid="uid://0vk57q7c20q0" path="res://world/Backgrounds/Midground.png" id="7_j025r"]
+[ext_resource type="PackedScene" uid="uid://d4ha8ml1g0mvp" path="res://world/Backgrounds/parallax_background_city_scape.tscn" id="6_bondn"]
+[ext_resource type="PackedScene" uid="uid://butbxbiuw01qj" path="res://enemies/beat cop/beat_cop.tscn" id="7_0qkm8"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_1w8oy"]
 shader = ExtResource("5_7pts0")
@@ -19,6 +19,15 @@ shader_parameter/blur_samples = 10
 [node name="Node2D" type="Node2D"]
 script = ExtResource("1_v1dck")
 level_limits = [-176, -448, 1744, 544]
+
+[node name="DirectionalLight2D" type="DirectionalLight2D" parent="."]
+position = Vector2(-76, -102)
+energy = 0.93
+shadow_enabled = true
+shadow_color = Color(0, 0, 0, 0.803922)
+
+[node name="CanvasModulate" type="CanvasModulate" parent="."]
+color = Color(0.592157, 0.592157, 0.6, 1)
 
 [node name="TileMap" type="TileMap" parent="."]
 tile_set = ExtResource("2_br0nr")
@@ -49,24 +58,12 @@ drag_vertical_enabled = true
 [node name="HooBot" parent="." instance=ExtResource("4_66ahq")]
 position = Vector2(86, 2)
 
-[node name="ParallaxBackground" type="ParallaxBackground" parent="."]
-follow_viewport_scale = 2.0
-
-[node name="Background" type="ParallaxLayer" parent="ParallaxBackground"]
-motion_scale = Vector2(0, 0)
-
-[node name="Sprite2D" type="Sprite2D" parent="ParallaxBackground/Background"]
-texture = ExtResource("6_ylpn8")
-centered = false
-
-[node name="Midground" type="ParallaxLayer" parent="ParallaxBackground"]
-motion_scale = Vector2(0.05, 0.05)
-
-[node name="Sprite2D" type="Sprite2D" parent="ParallaxBackground/Midground"]
-texture = ExtResource("7_j025r")
-centered = false
+[node name="ParallaxBackground" parent="." instance=ExtResource("6_bondn")]
 
 [node name="ProjectileContainer" type="Node2D" parent="."]
+
+[node name="BeatCop" parent="." instance=ExtResource("7_0qkm8")]
+position = Vector2(550, -88)
 
 [node name="CanvasLayer2" type="CanvasLayer" parent="."]
 

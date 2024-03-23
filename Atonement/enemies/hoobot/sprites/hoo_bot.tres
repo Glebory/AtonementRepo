@@ -1,0 +1,59 @@
+[gd_resource type="SpriteFrames" load_steps=9 format=3 uid="uid://cnf5x1qkdohbh"]
+
+[ext_resource type="Texture2D" uid="uid://csmlglka1mpu4" path="res://enemies/hoobot/sprites/Hoobot_idle.png" id="1_1wqhk"]
+[ext_resource type="Texture2D" uid="uid://camnog72pp8pp" path="res://enemies/hoobot/sprites/Hoobot.png" id="2_dysdy"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_w74bp"]
+atlas = ExtResource("1_1wqhk")
+region = Rect2(0, 0, 26, 26)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_1h7pe"]
+atlas = ExtResource("1_1wqhk")
+region = Rect2(26, 0, 26, 26)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_lxb8t"]
+atlas = ExtResource("2_dysdy")
+region = Rect2(78, 0, 26, 26)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_cn8m0"]
+atlas = ExtResource("2_dysdy")
+region = Rect2(52, 0, 26, 26)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_8h1hx"]
+atlas = ExtResource("2_dysdy")
+region = Rect2(26, 0, 26, 26)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_03nb4"]
+atlas = ExtResource("2_dysdy")
+region = Rect2(0, 0, 26, 26)
+
+[resource]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_w74bp")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_1h7pe")
+}],
+"loop": true,
+"name": &"idle",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_lxb8t")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_cn8m0")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_8h1hx")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_03nb4")
+}],
+"loop": true,
+"name": &"move",
+"speed": 10.0
+}]

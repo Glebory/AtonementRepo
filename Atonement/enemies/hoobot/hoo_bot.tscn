@@ -70,7 +70,14 @@ script = ExtResource("1_ehb83")
 [node name="Hitbox" type="CollisionPolygon2D" parent="."]
 position = Vector2(0, -18)
 scale = Vector2(0.994792, 1.03309)
-polygon = PackedVector2Array(-9.04712, 21.2953, -2.01047, 6.77579, 2.01047, 6.77579, 13.0681, 22.2633, 12.0628, 30.0071, -13.0681, 30.0071)
+polygon = PackedVector2Array(-2.01047, 6.77579, 2.01047, 6.77579, 13.0681, 22.2633, 12.0628, 30.0071, -13.0681, 30.0071)
+
+[node name="Attackbox" type="Area2D" parent="."]
+collision_layer = 0
+collision_mask = 4
+
+[node name="attackCollision" type="CollisionPolygon2D" parent="Attackbox"]
+polygon = PackedVector2Array(-13, 13, 12, 13, 13, 5, 2, -11, -2, -11)
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 sprite_frames = SubResource("SpriteFrames_3vr1x")
@@ -85,6 +92,10 @@ current_state = NodePath("Passive")
 [node name="Passive" type="Node" parent="HoobotStateMachine" node_paths=PackedStringArray("aggressive_state")]
 script = ExtResource("4_6oa3t")
 aggressive_state = NodePath("../Aggressive")
+invincible = false
+
+[node name="DirectionTimer" type="Timer" parent="HoobotStateMachine/Passive"]
+autostart = true
 
 [node name="Aggressive" type="Node" parent="HoobotStateMachine"]
 script = ExtResource("5_fnvsn")
@@ -97,18 +108,11 @@ offset_bottom = -23.0
 script = ExtResource("6_k5x3q")
 state_machine = NodePath("../HoobotStateMachine")
 
-[node name="Attackbox" type="Area2D" parent="."]
-collision_layer = 0
-collision_mask = 5
-
-[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Attackbox"]
-polygon = PackedVector2Array(-13, 13, 12, 13, 13, 5, 2, -11, -2, -11)
-
 [node name="DamagedTimer" type="Timer" parent="."]
 process_callback = 0
 wait_time = 0.1
 one_shot = true
 
 [connection signal="body_entered" from="Attackbox" to="." method="_on_attackbox_body_entered"]
-[connection signal="body_exited" from="Attackbox" to="." method="_on_attackbox_body_exited"]
+[connection signal="timeout" from="HoobotStateMachine/Passive/DirectionTimer" to="HoobotStateMachine/Passive" method="_on_direction_timer_timeout"]
 [connection signal="timeout" from="DamagedTimer" to="." method="_on_damaged_timer_timeout"]

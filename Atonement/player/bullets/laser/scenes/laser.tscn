@@ -1,7 +1,8 @@
-[gd_scene load_steps=4 format=3 uid="uid://bnlus66ei8xay"]
+[gd_scene load_steps=5 format=3 uid="uid://bnlus66ei8xay"]
 
 [ext_resource type="Script" path="res://player/bullets/laser/scripts/laser.gd" id="1_7e16p"]
 [ext_resource type="Texture2D" uid="uid://d7hq7u8t5sw" path="res://player/bullets/laser/sprites/test_bullet.png" id="2_5r765"]
+[ext_resource type="Texture2D" uid="uid://ckssr4123gpqq" path="res://world/lighting textures/2d_lights_and_shadows_neutral_point_light.webp" id="3_72g1r"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_edue6"]
 size = Vector2(1, 5.99997)
@@ -21,5 +22,12 @@ centered = false
 position = Vector2(3, 0.5)
 rotation = 1.5708
 shape = SubResource("RectangleShape2D_edue6")
+
+[node name="PointLight2D" type="PointLight2D" parent="."]
+color = Color(1, 0.313726, 0.247059, 1)
+energy = 0.81
+shadow_enabled = true
+texture = ExtResource("3_72g1r")
+texture_scale = 0.2
 
 [connection signal="body_entered" from="." to="." method="_on_body_entered"]
