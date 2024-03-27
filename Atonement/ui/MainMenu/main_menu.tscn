@@ -1,0 +1,66 @@
+[gd_scene load_steps=3 format=3 uid="uid://qnt4kp0qnxwp"]
+
+[ext_resource type="Theme" uid="uid://6dkoggaidmer" path="res://ui/shaders/mainTheme.tres" id="1_cktqj"]
+[ext_resource type="Script" path="res://ui/MainMenu/MainMenu.gd" id="1_ngb14"]
+
+[node name="MainMenu" type="Control"]
+process_mode = 3
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("1_cktqj")
+script = ExtResource("1_ngb14")
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+theme_override_constants/margin_left = 20
+theme_override_constants/margin_top = 80
+theme_override_constants/margin_right = 20
+theme_override_constants/margin_bottom = 80
+
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer"]
+layout_mode = 2
+
+[node name="OptionsMenu" type="VBoxContainer" parent="MarginContainer/HBoxContainer"]
+visible = false
+layout_mode = 2
+
+[node name="Volume" type="Button" parent="MarginContainer/HBoxContainer/OptionsMenu"]
+layout_mode = 2
+text = "Volume
+"
+
+[node name="Back" type="Button" parent="MarginContainer/HBoxContainer/OptionsMenu"]
+layout_mode = 2
+text = "Back"
+
+[node name="Menu" type="VBoxContainer" parent="MarginContainer/HBoxContainer"]
+layout_mode = 2
+
+[node name="Continue" type="Button" parent="MarginContainer/HBoxContainer/Menu"]
+layout_mode = 2
+text = "Continue"
+
+[node name="NewGame" type="Button" parent="MarginContainer/HBoxContainer/Menu"]
+layout_mode = 2
+text = "New Game"
+
+[node name="Options" type="Button" parent="MarginContainer/HBoxContainer/Menu"]
+layout_mode = 2
+toggle_mode = true
+text = "Options"
+
+[node name="Exit" type="Button" parent="MarginContainer/HBoxContainer/Menu"]
+layout_mode = 2
+text = "Exit"
+
+[connection signal="pressed" from="MarginContainer/HBoxContainer/OptionsMenu/Back" to="." method="_on_back_pressed"]
+[connection signal="pressed" from="MarginContainer/HBoxContainer/Menu/Continue" to="." method="_on_continue_pressed"]
+[connection signal="pressed" from="MarginContainer/HBoxContainer/Menu/NewGame" to="." method="_on_new_game_pressed"]
+[connection signal="pressed" from="MarginContainer/HBoxContainer/Menu/Options" to="." method="_on_options_pressed"]
+[connection signal="pressed" from="MarginContainer/HBoxContainer/Menu/Exit" to="." method="_on_exit_pressed"]
