@@ -34,3 +34,8 @@ func _on_direction_timer_timeout():
 		stopped = false
 			
 	
+
+
+func _on_detectionbox_body_entered(body):
+	if body.has_method("crouch"):
+		next_state=aggressive_state

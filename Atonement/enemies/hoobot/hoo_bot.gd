@@ -1,7 +1,6 @@
 extends CharacterBody2D
 
-#temporary code v
-@onready var player = get_node("/root/Node2D/Player")
+
 @onready var sprite : AnimatedSprite2D = $AnimatedSprite2D
 @onready var dmgtmr : Timer = $DamagedTimer
 
@@ -45,7 +44,6 @@ func hit(dmg, knockback):
 	dmgtmr.start()
 	velocity.x = knockback
 	sprite.self_modulate = Color(1,0,0)
-	
 
 func _on_attackbox_body_entered(body):
 	if body.has_method("hit"):

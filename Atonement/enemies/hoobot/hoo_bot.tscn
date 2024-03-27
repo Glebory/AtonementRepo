@@ -1,4 +1,4 @@
-[gd_scene load_steps=15 format=3 uid="uid://dmk1ovv1s8bvt"]
+[gd_scene load_steps=16 format=3 uid="uid://dmk1ovv1s8bvt"]
 
 [ext_resource type="Script" path="res://enemies/hoobot/hoo_bot.gd" id="1_ehb83"]
 [ext_resource type="Texture2D" uid="uid://csmlglka1mpu4" path="res://enemies/hoobot/sprites/Hoobot_idle.png" id="2_jpjih"]
@@ -7,6 +7,9 @@
 [ext_resource type="Script" path="res://enemies/hoobot/states/Passive.gd" id="4_6oa3t"]
 [ext_resource type="Script" path="res://enemies/hoobot/states/Aggressive.gd" id="5_fnvsn"]
 [ext_resource type="Script" path="res://player/States/StateDebugLabel.gd" id="6_k5x3q"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_0n7m2"]
+size = Vector2(166, 76)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_w74bp"]
 atlas = ExtResource("2_jpjih")
@@ -67,6 +70,13 @@ animations = [{
 collision_layer = 8
 script = ExtResource("1_ehb83")
 
+[node name="detectionbox" type="Area2D" parent="."]
+collision_layer = 0
+collision_mask = 4
+
+[node name="detectCollision" type="CollisionShape2D" parent="detectionbox"]
+shape = SubResource("RectangleShape2D_0n7m2")
+
 [node name="Hitbox" type="CollisionPolygon2D" parent="."]
 position = Vector2(0, -18)
 scale = Vector2(0.994792, 1.03309)
@@ -113,6 +123,7 @@ process_callback = 0
 wait_time = 0.1
 one_shot = true
 
+[connection signal="body_entered" from="detectionbox" to="HoobotStateMachine/Passive" method="_on_detectionbox_body_entered"]
 [connection signal="body_entered" from="Attackbox" to="." method="_on_attackbox_body_entered"]
 [connection signal="timeout" from="HoobotStateMachine/Passive/DirectionTimer" to="HoobotStateMachine/Passive" method="_on_direction_timer_timeout"]
 [connection signal="timeout" from="DamagedTimer" to="." method="_on_damaged_timer_timeout"]
