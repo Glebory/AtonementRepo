@@ -1,0 +1,74 @@
+[gd_scene load_steps=5 format=3 uid="uid://c5iwnqoolqtyg"]
+
+[ext_resource type="Script" path="res://ui/Pause/Pause.gd" id="1_etnr3"]
+[ext_resource type="Shader" path="res://ui/shaders/vhs.gdshader" id="2_2oy0h"]
+[ext_resource type="Theme" uid="uid://6dkoggaidmer" path="res://ui/shaders/mainTheme.tres" id="3_v18lg"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_akiox"]
+shader = ExtResource("2_2oy0h")
+shader_parameter/wiggle = 0.03
+shader_parameter/wiggle_speed = 25.0
+shader_parameter/smear = 1.0
+shader_parameter/blur_samples = 15
+
+[node name="Pause" type="Control"]
+process_mode = 3
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_etnr3")
+
+[node name="ColorRect" type="ColorRect" parent="."]
+material = SubResource("ShaderMaterial_akiox")
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="CenterContainer" type="CenterContainer" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -75.0
+offset_top = -68.0
+offset_right = 75.0
+offset_bottom = 68.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="CenterContainer"]
+layout_mode = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CenterContainer/MarginContainer"]
+layout_mode = 2
+theme = ExtResource("3_v18lg")
+
+[node name="Resume" type="Button" parent="CenterContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "Resume"
+
+[node name="SaveGame" type="Button" parent="CenterContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "Save"
+
+[node name="Options" type="Button" parent="CenterContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "Options"
+
+[node name="Exit" type="Button" parent="CenterContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "Exit to main menu
+"
+
+[connection signal="pressed" from="CenterContainer/MarginContainer/VBoxContainer/Resume" to="." method="_on_resume_pressed"]
+[connection signal="pressed" from="CenterContainer/MarginContainer/VBoxContainer/SaveGame" to="." method="_on_save_game_pressed"]
+[connection signal="pressed" from="CenterContainer/MarginContainer/VBoxContainer/Options" to="." method="_on_options_pressed"]
+[connection signal="pressed" from="CenterContainer/MarginContainer/VBoxContainer/Exit" to="." method="_on_exit_pressed"]
