@@ -2,7 +2,7 @@ extends State
 
 class_name aggressive_state
 
-@onready var player = get_node("/root/Node2D/Player")
+@onready var player = get_tree().get_first_node_in_group("player")
 
 @export var aggro_speed = 100.0
 
