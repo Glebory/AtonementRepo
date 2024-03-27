@@ -1,22 +1,15 @@
-[gd_scene load_steps=10 format=3 uid="uid://b5trcsd6w6mnk"]
+[gd_scene load_steps=9 format=3 uid="uid://b5trcsd6w6mnk"]
 
 [ext_resource type="Script" path="res://world/levels/tutorial/tutorial.gd" id="1_v1dck"]
 [ext_resource type="TileSet" uid="uid://8ypxlv6qnut0" path="res://world/levels/tutorial/layout.tres" id="2_br0nr"]
 [ext_resource type="PackedScene" uid="uid://ctlttx6j4apog" path="res://player/Scenes/player.tscn" id="2_fwgwb"]
 [ext_resource type="PackedScene" uid="uid://cvryxve4u3nkm" path="res://player/Scenes/health_hud.tscn" id="3_vtyiy"]
 [ext_resource type="PackedScene" uid="uid://dmk1ovv1s8bvt" path="res://enemies/hoobot/hoo_bot.tscn" id="4_66ahq"]
-[ext_resource type="Shader" path="res://ui/shaders/vhs.gdshader" id="5_7pts0"]
 [ext_resource type="PackedScene" uid="uid://d4ha8ml1g0mvp" path="res://world/Backgrounds/parallax_background_city_scape.tscn" id="6_bondn"]
 [ext_resource type="PackedScene" uid="uid://butbxbiuw01qj" path="res://enemies/beat cop/beat_cop.tscn" id="7_0qkm8"]
+[ext_resource type="PackedScene" uid="uid://c5iwnqoolqtyg" path="res://ui/Pause/pause.tscn" id="9_jc1eg"]
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_1w8oy"]
-shader = ExtResource("5_7pts0")
-shader_parameter/wiggle = 0.68
-shader_parameter/wiggle_speed = 9.0
-shader_parameter/smear = 0.643
-shader_parameter/blur_samples = 10
-
-[node name="Node2D" type="Node2D"]
+[node name="Tutorial" type="Node2D"]
 script = ExtResource("1_v1dck")
 level_limits = [-176, -448, 1744, 544]
 
@@ -55,6 +48,9 @@ drag_vertical_enabled = true
 
 [node name="HealthHUD" parent="CanvasLayer" instance=ExtResource("3_vtyiy")]
 
+[node name="Pause" parent="CanvasLayer" instance=ExtResource("9_jc1eg")]
+visible = false
+
 [node name="HooBot" parent="." instance=ExtResource("4_66ahq")]
 position = Vector2(86, 2)
 
@@ -64,16 +60,3 @@ position = Vector2(86, 2)
 
 [node name="BeatCop" parent="." instance=ExtResource("7_0qkm8")]
 position = Vector2(550, -88)
-
-[node name="CanvasLayer2" type="CanvasLayer" parent="."]
-
-[node name="ColorRect" type="ColorRect" parent="CanvasLayer2"]
-visible = false
-material = SubResource("ShaderMaterial_1w8oy")
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-size_flags_horizontal = 3
-size_flags_vertical = 3
