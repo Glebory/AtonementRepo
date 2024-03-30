@@ -1,0 +1,21 @@
+[gd_scene load_steps=5 format=3 uid="uid://b805xlppj22pt"]
+
+[ext_resource type="PackedScene" uid="uid://c3sp2u52h8tn4" path="res://ConsumablesAndItems/consumable.tscn" id="1_e4kb3"]
+[ext_resource type="Script" path="res://Consumable.gd" id="2_r4rxe"]
+[ext_resource type="Texture2D" uid="uid://c882850tg26t4" path="res://ConsumablesAndItems/creds/creds.png" id="3_phmcu"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_troh8"]
+radius = 3.16228
+
+[node name="cred" instance=ExtResource("1_e4kb3")]
+script = ExtResource("2_r4rxe")
+index = 0
+
+[node name="Sprite2D" parent="." index="0"]
+texture = ExtResource("3_phmcu")
+
+[node name="CollisionShape2D" parent="." index="1"]
+shape = SubResource("CircleShape2D_troh8")
+
+[node name="PointLight2D" parent="." index="3"]
+position = Vector2(3.55271e-15, 0)

@@ -60,3 +60,5 @@ position = Vector2(86, 2)
 
 [node name="BeatCop" parent="." instance=ExtResource("7_0qkm8")]
 position = Vector2(550, -88)
+
+[node name="ConsumableContainer" type="Node2D" parent="."]

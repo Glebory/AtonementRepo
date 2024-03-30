@@ -1,0 +1,61 @@
+[gd_scene load_steps=8 format=3 uid="uid://c3sp2u52h8tn4"]
+
+[ext_resource type="Script" path="res://ConsumablesAndItems/consumable.gd" id="1_a5jwu"]
+[ext_resource type="Texture2D" uid="uid://md0xqqtcnvl2" path="res://ConsumablesAndItems/xp/xp sprite.png" id="2_jbfwc"]
+[ext_resource type="Texture2D" uid="uid://ckssr4123gpqq" path="res://world/lighting textures/2d_lights_and_shadows_neutral_point_light.webp" id="3_k2kt8"]
+
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_oubqy"]
+friction = 0.8
+bounce = 0.8
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_eqhte"]
+radius = 1.0
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_260u3"]
+size = Vector2(71.25, 34.75)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_uvoae"]
+size = Vector2(5.25, 5.25)
+
+[node name="Consumable" type="RigidBody2D"]
+collision_layer = 0
+mass = 0.1
+physics_material_override = SubResource("PhysicsMaterial_oubqy")
+gravity_scale = 0.4
+script = ExtResource("1_a5jwu")
+
+[node name="Sprite2D" type="Sprite2D" parent="." groups=["consumable"]]
+texture = ExtResource("2_jbfwc")
+hframes = 4
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_eqhte")
+
+[node name="PlayerChecker" type="Area2D" parent="."]
+collision_layer = 0
+collision_mask = 16
+
+[node name="PlayerDetection" type="CollisionShape2D" parent="PlayerChecker"]
+position = Vector2(1, -16)
+shape = SubResource("RectangleShape2D_260u3")
+
+[node name="PointLight2D" type="PointLight2D" parent="."]
+position = Vector2(1, 1)
+scale = Vector2(0.102539, 0.0966797)
+color = Color(0.337255, 0.701961, 0.984314, 1)
+energy = 0.81
+shadow_enabled = true
+texture = ExtResource("3_k2kt8")
+texture_scale = 0.4
+
+[node name="Absorber" type="Area2D" parent="."]
+collision_layer = 0
+collision_mask = 16
+
+[node name="AbsorberCollision" type="CollisionShape2D" parent="Absorber"]
+shape = SubResource("RectangleShape2D_uvoae")
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]
+[connection signal="body_entered" from="PlayerChecker" to="." method="_on_player_checker_body_entered"]
+[connection signal="body_exited" from="PlayerChecker" to="." method="_on_player_checker_body_exited"]
+[connection signal="body_entered" from="Absorber" to="." method="_on_absorber_body_entered"]
