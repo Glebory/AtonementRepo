@@ -7,13 +7,14 @@ var stopped : bool = true
 @export var aggressive_state : State
 @export_range(-20, -3, 1) var erratic_factor : float = -10
 @export_range(20, 3, 1) var decisive_factor : float = 10
+
 func on_enter():
 	direction_timer.start()
 	
 func on_exit():
 	direction_timer.stop()
 	
-func process(delta):
+func process(_delta):
 	if Character.health < Character.full_health:
 		next_state=aggressive_state
 

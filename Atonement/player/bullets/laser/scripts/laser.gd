@@ -4,7 +4,7 @@ extends Area2D
 @export var lifetime : int = 0
 @export var lifeEnd : int = 1500
 @export var knockback : int = 50
-@onready var player = get_node("/root/Node2D/Player")
+@onready var player = get_tree().get_first_node_in_group("player")
 @onready var sprite : Sprite2D = $Sprite2D
 var direction
 var dmg : int = 20

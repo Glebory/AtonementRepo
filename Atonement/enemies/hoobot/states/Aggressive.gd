@@ -9,5 +9,5 @@ class_name aggressive_state
 func on_enter():
 	Character.speed = aggro_speed
 
-func process(delta):
+func process(_delta):
 	Character.direction = Character.global_position.direction_to(player.global_position)
