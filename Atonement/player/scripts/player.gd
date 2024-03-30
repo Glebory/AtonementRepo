@@ -4,6 +4,9 @@ signal laser_shot(laser_scene, location)
 
 @export var speed : float = 150.0
 @export var health : int = 200
+@export var xp : int = 0
+@export var xp_to_next_lvl : int = 10
+@export var creds : int = 0
 
 @onready var gun : Marker2D = $gun
 @onready var sprite : Sprite2D = $Sprite2D
@@ -59,17 +62,19 @@ func _physics_process(delta):
 	
 func animation_update():
 	animation_tree.set("parameters/move/blend_position", walk_direction.x)
-	animation_tree.set("parameters/attack move/TimeScale/scale", 1)
+	animation_tree.set("parameters/crouch/blend_position", walk_direction.x)
+	animation_tree.set("parameters/attack/attack/blend_position", walk_direction.x)
+	animation_tree.set("parameters/attack/TimeScale/scale", 1)
 	if look_direction.x > 0:
 		sprite.flip_h = false
 		gun.position.x = abs(gun.position.x)
 		if walk_direction.x < 0:
-			animation_tree.set("parameters/attack move/TimeScale/scale", -1)
+			animation_tree.set("parameters/attack/TimeScale/scale", -1)
 	elif look_direction.x < 0:
 		sprite.flip_h = true
 		gun.position.x = abs(gun.position.x)*-1
 		if walk_direction.x > 0:
-			animation_tree.set("parameters/attack move/TimeScale/scale", -1)
+			animation_tree.set("parameters/attack/TimeScale/scale", -1)
 	else:
 		if walk_direction.x > 0:
 			sprite.flip_h = false
@@ -103,12 +108,22 @@ func move():
 		hit_box.set_shape(walking_hit_box)
 		moving = true
 		
-func hit(dmg):
+func hit(dmg, knockback):
 	self.set_collision_layer_value(3, false)
 	health -= dmg
+	velocity.x = knockback
 	invincibility = true
 	invincibility_timer.start()
+	if health < 0:
+		print_debug("Game over")
 	print_debug(health)
+	
+func xp_up():
+	xp += 1
+	xp_to_next_lvl -= 1
+	
+func cred_up(value):
+	creds += value
 
 func _on_invincibility_timeout():
 	self.set_collision_layer_value(3, true)

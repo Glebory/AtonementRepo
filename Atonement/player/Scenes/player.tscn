@@ -1,4 +1,4 @@
-[gd_scene load_steps=32 format=3 uid="uid://ctlttx6j4apog"]
+[gd_scene load_steps=36 format=3 uid="uid://ctlttx6j4apog"]
 
 [ext_resource type="Script" path="res://player/scripts/player.gd" id="1_w1461"]
 [ext_resource type="Texture2D" uid="uid://c2cj67450l65v" path="res://player/sprites/idle.png" id="2_x2orp"]
@@ -11,12 +11,15 @@
 [ext_resource type="Texture2D" uid="uid://c68jd0q4nkdbc" path="res://player/sprites/walk_shoot_1 editable.png" id="8_evkyr"]
 [ext_resource type="Texture2D" uid="uid://nvl68fbon1yy" path="res://player/sprites/walk_shoot_2 editable.png" id="9_3rlyp"]
 [ext_resource type="AnimationNodeStateMachine" uid="uid://bk6dsval1sc6i" path="res://trees/player.tres" id="9_y3ksb"]
+[ext_resource type="Texture2D" uid="uid://x0vji66elorr" path="res://player/sprites/crouch walk.png" id="11_57wi2"]
 [ext_resource type="Script" path="res://player/States/PlayerStateMachine.gd" id="12_qjqhc"]
 [ext_resource type="Script" path="res://player/States/GroundState.gd" id="13_wximx"]
 [ext_resource type="Script" path="res://player/States/AirState.gd" id="14_nnip4"]
 [ext_resource type="Script" path="res://player/States/LandingState.gd" id="15_6j3hw"]
 [ext_resource type="Script" path="res://player/States/JumpStartState.gd" id="16_sqgtm"]
 [ext_resource type="Script" path="res://player/States/AttackState.gd" id="17_lk8gc"]
+[ext_resource type="Script" path="res://player/Scenes/CrouchState.gd" id="18_2p2e0"]
+[ext_resource type="Script" path="res://player/Scenes/CrouchAttackState.gd" id="19_d0f40"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_2k2gv"]
 radius = 7.0
@@ -320,6 +323,71 @@ tracks/4/keys = {
 "transitions": PackedFloat32Array(1, 1),
 "update": 1,
 "values": [0, 1]
+}
+
+[sub_resource type="Animation" id="Animation_kdepc"]
+resource_name = "crouch walk"
+length = 0.9
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:texture")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [ExtResource("11_57wi2")]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Sprite2D:hframes")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [9]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Sprite2D:vframes")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [1]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("Sprite2D:offset")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(0, 8)]
+}
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("Sprite2D:frame")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [0, 1, 2, 3, 4, 5, 6, 7, 8]
 }
 
 [sub_resource type="Animation" id="Animation_mrfrm"]
@@ -737,6 +805,7 @@ _data = {
 "Landing": SubResource("Animation_unu0r"),
 "RESET": SubResource("Animation_027xy"),
 "attack": SubResource("Animation_02het"),
+"crouch walk": SubResource("Animation_kdepc"),
 "idle": SubResource("Animation_mrfrm"),
 "jump start": SubResource("Animation_vuuw1"),
 "jump up": SubResource("Animation_j6yt7"),
@@ -746,8 +815,8 @@ _data = {
 "shoot run 2": SubResource("Animation_fr61y")
 }
 
-[node name="Player" type="CharacterBody2D"]
-collision_layer = 6
+[node name="Player" type="CharacterBody2D" groups=["player"]]
+collision_layer = 22
 script = ExtResource("1_w1461")
 
 [node name="Hitbox" type="CollisionShape2D" parent="."]
@@ -769,8 +838,10 @@ libraries = {
 tree_root = ExtResource("9_y3ksb")
 anim_player = NodePath("../AnimationPlayer")
 active = true
-"parameters/attack move/TimeScale/scale" = 1.0
-parameters/move/blend_position = -0.00794226
+parameters/attack/TimeScale/scale = 1.0
+parameters/attack/attack/blend_position = 0
+parameters/crouch/blend_position = 0.00446427
+parameters/move/blend_position = -0.00223213
 
 [node name="PlayerStateMachine" type="Node" parent="." node_paths=PackedStringArray("player", "current_state", "animation_tree")]
 script = ExtResource("12_qjqhc")
@@ -778,13 +849,14 @@ player = NodePath("..")
 current_state = NodePath("Ground")
 animation_tree = NodePath("../AnimationTree")
 
-[node name="Ground" type="Node" parent="PlayerStateMachine" node_paths=PackedStringArray("air_state", "jump_start_state", "attack_state")]
+[node name="Ground" type="Node" parent="PlayerStateMachine" node_paths=PackedStringArray("air_state", "jump_start_state", "attack_state", "crouch_state")]
 script = ExtResource("13_wximx")
 air_state = NodePath("../Air")
 jump_start_state = NodePath("../JumpStart")
 attack_state = NodePath("../Attack")
 attack_animation = "attack"
-crouch_animation = "Crouching"
+crouch_state = NodePath("../Crouch")
+crouch_animation = "crouch"
 moving_attack_animation = "attack move"
 invincible = false
 
@@ -808,14 +880,28 @@ jump_up = "jump up"
 can_move = false
 invincible = false
 
-[node name="Attack" type="Node" parent="PlayerStateMachine" node_paths=PackedStringArray("return_state")]
+[node name="Attack" type="Node" parent="PlayerStateMachine" node_paths=PackedStringArray("ground_state", "crouch_attack_state")]
 script = ExtResource("17_lk8gc")
-return_state = NodePath("../Ground")
+ground_state = NodePath("../Ground")
 attack_animation = "attack"
+crouch_attack_state = NodePath("../CrouchAttack")
 moving_attack_animation = "attack move"
 invincible = false
 
-[node name="Timer" type="Timer" parent="PlayerStateMachine/Attack"]
+[node name="Crouch" type="Node" parent="PlayerStateMachine" node_paths=PackedStringArray("ground_state", "air_state", "crouch_attack_state")]
+script = ExtResource("18_2p2e0")
+ground_state = NodePath("../Ground")
+air_state = NodePath("../Air")
+crouch_attack_state = NodePath("../CrouchAttack")
+invincible = false
+
+[node name="CrouchAttack" type="Node" parent="PlayerStateMachine" node_paths=PackedStringArray("attack_state", "crouch_state")]
+script = ExtResource("19_d0f40")
+attack_state = NodePath("../Attack")
+crouch_state = NodePath("../Crouch")
+invincible = false
+
+[node name="FireRate" type="Timer" parent="PlayerStateMachine"]
 wait_time = 0.2
 
 [node name="Invincibility" type="Timer" parent="."]
@@ -825,5 +911,6 @@ one_shot = true
 
 [connection signal="animation_finished" from="AnimationTree" to="PlayerStateMachine/Landing" method="_on_animation_tree_animation_finished"]
 [connection signal="animation_finished" from="AnimationTree" to="PlayerStateMachine/JumpStart" method="_on_animation_tree_animation_finished"]
-[connection signal="timeout" from="PlayerStateMachine/Attack/Timer" to="PlayerStateMachine/Attack" method="_on_timer_timeout"]
+[connection signal="timeout" from="PlayerStateMachine/FireRate" to="PlayerStateMachine/Attack" method="_on_timer_timeout"]
+[connection signal="timeout" from="PlayerStateMachine/FireRate" to="PlayerStateMachine/CrouchAttack" method="_on_fire_rate_timeout"]
 [connection signal="timeout" from="Invincibility" to="." method="_on_invincibility_timeout"]
